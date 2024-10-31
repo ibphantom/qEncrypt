@@ -1,13 +1,16 @@
 # Stage 1: Builder Stage
 FROM rust:latest AS builder
 
-# Set working directory
+# Set up working directory
 WORKDIR /app
 
-# Copy source files
+# Copy dependency files
 COPY Cargo.toml Cargo.lock ./
-RUN cargo fetch  # Pre-fetch dependencies for caching
 
+# Pre-fetch dependencies for caching
+RUN mkdir src && echo "fn main() {}" > src/main.rs && cargo build
+
+# Copy the source files and build the app
 COPY src/ ./src
 RUN cargo build --release
 
@@ -17,7 +20,7 @@ FROM scratch
 # Expose port for HTTP server
 EXPOSE 8080
 
-# Create non-root user for added security
+# Create non-root user for additional security
 USER 1000:1000
 
 # Copy the compiled binary from the builder stage
