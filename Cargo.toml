@@ -1,0 +1,9 @@
+[package]
+name = "my_secure_app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tiny-http = "0.8"
+sha3 = "0.10"      # For HMAC-SHA3-512
+rand = "0.8"       # Random number generator (mock QRNG)
