@@ -19,6 +19,15 @@ jobs:
         target: x86_64-unknown-linux-gnu
         profile: minimal
 
+    - name: Generate Cargo.lock
+      run: |
+        cargo new temp_project
+        cd temp_project
+        echo "[dependencies]" > Cargo.toml
+        cargo build
+        cp Cargo.lock ../Cargo.lock
+        rm -rf temp_project
+
     - name: Build Docker image
       run: docker build -t your_dockerhub_username/mysecureapp:latest .
 
